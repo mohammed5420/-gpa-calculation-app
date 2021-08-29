@@ -1,5 +1,5 @@
 import javax.swing.*;
-public class Project {
+public class GPACalculator {
 
     public static int TotalHoursPerSemester = 0;
     public static int currentHours = 0;
@@ -111,14 +111,24 @@ public class Project {
     }
     //get user input
     public static int getResults(String sub , String semester){
-        int input = Integer.parseInt( JOptionPane.showInputDialog(null, "please type your " + sub +" degree in semester "+semester+": "));
-
-        //simple validation to secure the app
-        while(input > 100 && input > 0){
-            JOptionPane.showMessageDialog(null,"please enter vallid mark 100 <= mark >= 0");
-            input = Integer.parseInt( JOptionPane.showInputDialog(null, "please type your " + sub +" degree in semester "+semester+": "));
+        int input = 0;
+        boolean faileValidation = true;
+        do {
+            try {
+                input = Integer.parseInt( JOptionPane.showInputDialog(null, "please type your marks in " + sub +" ","semester " +semester,JOptionPane.PLAIN_MESSAGE)); 
+                if(input >= 0 && input <= 100) {
+                    faileValidation = false;
+                } else {
+                    faileValidation = true;
+                    JOptionPane.showMessageDialog(null,"please enter vallid mark 100 <= mark >= 0");
+                    input = Integer.parseInt( JOptionPane.showInputDialog(null, "please type your marks in " + sub +" ","semester " +semester,JOptionPane.PLAIN_MESSAGE)); 
+                }
+            } catch(NumberFormatException  e) {
+                JOptionPane.showMessageDialog(null,"please enter vallid mark 100 <= mark >= 0");
+            }
         }
-
+        while(faileValidation);
+        //simple validation to secure the app
         return input;
     }
 
@@ -271,7 +281,7 @@ public class Project {
         if(subject1 == "" && subject2 == "" && subject3 == "" && subject4 == "")
             return "success";
         else
-            return "F " + subject1 + " " + subject2 + " " +  subject3 + " " +  subject4;
+            return "F " + subject1 + " ," + subject2 + " ," +  subject3 + " ," +  subject4;
     }
     public static void init (){
         subject1 = "";
